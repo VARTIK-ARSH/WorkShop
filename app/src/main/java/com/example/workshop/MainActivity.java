@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //testing
         setContentView(R.layout.activity_main);
         Realm.init(this);
         username = findViewById(R.id.username);
