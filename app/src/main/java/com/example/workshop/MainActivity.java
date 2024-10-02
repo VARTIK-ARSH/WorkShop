@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -25,7 +26,7 @@ import io.realm.mongodb.mongo.MongoCollection;
 import io.realm.mongodb.mongo.MongoDatabase;
 
 public class MainActivity extends AppCompatActivity {
-    String Appid = "application-0-jxtgbji";
+    private String AppID = BuildConfig.APP_ID;
     App app;
     MongoClient mongoClient;
     MongoDatabase mongoDatabase;
@@ -33,20 +34,23 @@ public class MainActivity extends AppCompatActivity {
     User user;
     EditText username,password;
     Button login;
+    ProgressBar progressbarlogin;
     @SuppressLint({"MissingInflatedId","SetTextI18n", "ResourceAsColor"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //testing
         setContentView(R.layout.activity_main);
+        EdgeToEdge.enable(this);
         Realm.init(this);
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         login = findViewById(R.id.login);
-        app = new App(Appid);
+        progressbarlogin = findViewById(R.id.progressbarlogin);
+        app = new App(AppID);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressbarlogin.setVisibility(View.VISIBLE);
                 String id = username.getText().toString();
                 String pass = password.getText().toString();
                 if (id.trim().isEmpty() || pass.trim().isEmpty()) {
@@ -66,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                                     if (res.isSuccess()) {
                                         Document document = res.get();
                                         if (document != null) {
+                                            progressbarlogin.setVisibility(View.GONE);
                                             String role = document.getString("role");
                                             if("admin".equals(role)){
                                                 Intent intent = new Intent(MainActivity.this,admin.class);

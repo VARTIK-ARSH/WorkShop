@@ -1,8 +1,17 @@
+import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     id("realm-android")
 }
 apply(plugin = "realm-android")
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+
+val appId: String = localProperties.getProperty("appId")
 android {
     namespace = "com.example.workshop"
     compileSdk = 34
@@ -13,8 +22,13 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "APP_ID", "\"$appId\"")
+
+    }
+
+    buildFeatures{
+        buildConfig = true
     }
 
     buildTypes {
