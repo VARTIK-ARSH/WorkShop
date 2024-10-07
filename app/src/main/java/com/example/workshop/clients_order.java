@@ -1,45 +1,51 @@
 package com.example.workshop;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import org.bson.Document;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 import io.realm.mongodb.User;
 import io.realm.mongodb.mongo.MongoClient;
-import io.realm.mongodb.mongo.MongoCollection;
 import io.realm.mongodb.mongo.MongoDatabase;
+import io.realm.mongodb.mongo.MongoCollection;
 import io.realm.mongodb.mongo.iterable.MongoCursor;
 
-public class admin extends AppCompatActivity {
+public class clients_order extends AppCompatActivity {
 
     private static final String TAG = "ClientActivity";
     private RecyclerView orderRecyclerView;
-    private OrderAdapter orderAdapter;
+    private ClientOrderAdapter clientOrderAdapter;
+
+    private ImageView add;
     private MongoClient mongoClient;
     private MongoDatabase mongoDatabase;
     private MongoCollection<Document> mongoCollection;
     private User user;
 
     private static final String APP_ID = BuildConfig.APP_ID;
-    private Handler handler = new Handler();
-    private Runnable refreshRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin);
+        setContentView(R.layout.activity_clients_order);
+
+        add=findViewById(R.id.add);
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(clients_order.this, client.class));            }
+        });
 
         orderRecyclerView = findViewById(R.id.order_recycler_view);
         orderRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -56,7 +62,6 @@ public class admin extends AppCompatActivity {
 
                 Log.d(TAG, "MongoDB connection established successfully.");
                 fetchOrdersFromMongoDB();
-                setupAutoRefresh();
             } else {
                 Toast.makeText(this, "User is not logged in!", Toast.LENGTH_SHORT).show();
                 return;
@@ -74,42 +79,19 @@ public class admin extends AppCompatActivity {
                 List<Document> orderList = new ArrayList<>();
 
                 while (cursor.hasNext()) {
-                    Document orderDocument = cursor.next();
-                    orderList.add(orderDocument);
+                    orderList.add(cursor.next());
                 }
 
                 runOnUiThread(() -> {
-                    if (orderAdapter == null) {
-                        orderAdapter = new OrderAdapter(orderList, mongoCollection, admin.this);
-                        orderRecyclerView.setAdapter(orderAdapter);
-                    } else {
-                        orderAdapter.updateOrders(orderList);
-                    }
+                    clientOrderAdapter = new ClientOrderAdapter(orderList);
+                    orderRecyclerView.setAdapter(clientOrderAdapter);
                 });
             } else {
                 Log.e(TAG, "Failed to fetch orders: " + result.getError().toString());
                 runOnUiThread(() -> {
-                    Toast.makeText(admin.this, "Failed to fetch orders", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(clients_order.this, "Failed to fetch orders", Toast.LENGTH_SHORT).show();
                 });
             }
         });
-    }
-
-    private void setupAutoRefresh() {
-        refreshRunnable = new Runnable() {
-            @Override
-            public void run() {
-                fetchOrdersFromMongoDB();
-                handler.postDelayed(this, 1000);
-            }
-        };
-
-        handler.post(refreshRunnable);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        handler.removeCallbacks(refreshRunnable);
     }
 }
