@@ -62,7 +62,7 @@ public class worker extends AppCompatActivity {
             }
         } catch (Exception e) {
             Log.e(TAG, "Error connecting to MongoDB: " + e.getMessage());
-            Toast.makeText(this, "Error connecting to MongoDB: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Check network", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -84,7 +84,7 @@ public class worker extends AppCompatActivity {
         Document filter = new Document("status", new Document("$ne", 4));
 
         // Sorting priority: High -> Mid -> Low, and if same, sort by dueDate (ascending)
-        Document sort = new Document("priority", -1)   // Sort by priority: high > mid > low (-1 for descending order)
+        Document sort = new Document("priority_num",-1)   // Sort by priority: high > mid > low (-1 for descending order)
                 .append("dueDate", 1);  // Sort by due date in ascending order (1 for ascending)
 
         // Fetch documents matching the query and sorting criteria

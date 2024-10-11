@@ -6,9 +6,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import org.bson.Document;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +31,7 @@ public class clients_order extends AppCompatActivity {
     private RecyclerView orderRecyclerView;
     private ClientOrderAdapter clientOrderAdapter;
 
-    private ImageView add;
+    private FloatingActionButton add;
     private MongoClient mongoClient;
     private MongoDatabase mongoDatabase;
     private MongoCollection<Document> mongoCollection;
@@ -37,6 +42,7 @@ public class clients_order extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_clients_order);
 
         add=findViewById(R.id.add);
@@ -73,7 +79,9 @@ public class clients_order extends AppCompatActivity {
     }
 
     private void fetchOrdersFromMongoDB() {
-        mongoCollection.find().iterator().getAsync(result -> {
+        Document sort = new Document("priority_num",-1)
+                .append("dueDate", 1);
+        mongoCollection.find().sort(sort).iterator().getAsync(result -> {
             if (result.isSuccess()) {
                 MongoCursor<Document> cursor = result.get();
                 List<Document> orderList = new ArrayList<>();
@@ -83,7 +91,7 @@ public class clients_order extends AppCompatActivity {
                 }
 
                 runOnUiThread(() -> {
-                    clientOrderAdapter = new ClientOrderAdapter(orderList);
+                    clientOrderAdapter = new ClientOrderAdapter(orderList, clients_order.this);
                     orderRecyclerView.setAdapter(clientOrderAdapter);
                 });
             } else {

@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.bson.Document;
@@ -53,6 +54,7 @@ public class client extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_client);
 
         orders = findViewById(R.id.workassign);
@@ -126,20 +128,20 @@ public class client extends AppCompatActivity {
                 String selectedDate = orderDateEditText.getText().toString();
                 String selectedPriority = prioritySpinner.getSelectedItem().toString();
 
-//
-//                int selectedPriority = 0;
-//                String priorityString = prioritySpinner.getSelectedItem().toString();
-//                switch (priorityString) {
-//                    case "High":
-//                        selectedPriority = 1;
-//                        break;
-//                    case "Mid":
-//                        selectedPriority = 2;
-//                        break;
-//                    case "Low":
-//                        selectedPriority = 3;
-//                        break;
-//                }
+
+                int priority_num= 0;
+                String priorityString = prioritySpinner.getSelectedItem().toString();
+                switch (priorityString) {
+                    case "High":
+                        priority_num = 3;
+                        break;
+                    case "Mid":
+                        priority_num = 2;
+                        break;
+                    case "Low":
+                        priority_num = 1;
+                        break;
+                }
 
 
                 String workassign = orders.getText().toString();
@@ -148,6 +150,7 @@ public class client extends AppCompatActivity {
                             .append("order", workassign)
                             .append("date", selectedDate)
                             .append("priority", selectedPriority)
+                            .append("priority_num",priority_num)
                             .append("status", 0);
 
                     try {

@@ -24,7 +24,7 @@
             android:fontFamily="sans-serif-smallcaps"
             android:gravity="center"
             android:padding="20dp"
-            android:text="Workshop"
+            android:text="SRMS Workshop"
             android:textColor="@color/white"
             android:textSize="60sp"
             android:textStyle="bold" />

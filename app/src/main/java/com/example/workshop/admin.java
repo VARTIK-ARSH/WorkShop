@@ -68,7 +68,9 @@ public class admin extends AppCompatActivity {
     }
 
     private void fetchOrdersFromMongoDB() {
-        mongoCollection.find().iterator().getAsync(result -> {
+        Document sort = new Document("priority_num",-1)
+                .append("dueDate", 1);
+        mongoCollection.find().sort(sort).iterator().getAsync(result -> {
             if (result.isSuccess()) {
                 MongoCursor<Document> cursor = result.get();
                 List<Document> orderList = new ArrayList<>();

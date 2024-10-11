@@ -6,4 +6,10 @@
     </style>
 
     <style name="Theme.WorkShop" parent="Base.Theme.WorkShop" />
+    <style name="Theme.WorkShop.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.WorkShop.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.WorkShop.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

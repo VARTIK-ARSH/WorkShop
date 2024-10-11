@@ -1,5 +1,6 @@
 package com.example.workshop;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,11 +32,12 @@ public class WorkerOrder extends RecyclerView.Adapter<WorkerOrder.OrderViewHolde
         return new OrderViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         Document orderDocument = orderList.get(position);
-        holder.usernameTextView.setText("Username: " + orderDocument.getString("username"));
-        holder.orderTextView.setText("Order: " + orderDocument.getString("order"));
+        holder.usernameTextView.setText("Client Name: " + orderDocument.getString("username"));
+        holder.orderTextView.setText("Order Due: " + orderDocument.getString("order"));
         holder.dateTextView.setText("Date: " + orderDocument.getString("date"));
         holder.priorityTextView.setText("Priority: " + orderDocument.getString("priority"));
 

@@ -1,5 +1,6 @@
 package com.example.workshop;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,10 @@ import java.util.List;
 public class ClientOrderAdapter extends RecyclerView.Adapter<ClientOrderAdapter.ClientOrderViewHolder> {
 
     private List<Document> orderList;
-
-    public ClientOrderAdapter(List<Document> orderList) {
+    Context context;
+    public ClientOrderAdapter(List<Document> orderList, Context context) {
         this.orderList = orderList;
+        this.context = context;
     }
 
     @NonNull
@@ -30,9 +32,8 @@ public class ClientOrderAdapter extends RecyclerView.Adapter<ClientOrderAdapter.
     public void onBindViewHolder(@NonNull ClientOrderViewHolder holder, int position) {
         Document order = orderList.get(position);
 
-        String orderDetails = "Username: " + order.getString("username") + "\n" +
-                "Order: " + order.getString("order") + "\n" +
-                "Date: " + order.getString("date") + "\n" +
+        String orderDetails ="Order: " + order.getString("order") + "\n" +
+                "Due Date: " + order.getString("date") + "\n" +
                 "Priority: " + order.getString("priority");
         holder.orderDetailsTextView.setText(orderDetails);
 
