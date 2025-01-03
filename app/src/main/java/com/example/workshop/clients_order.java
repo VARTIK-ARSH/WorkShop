@@ -1,5 +1,6 @@
 package com.example.workshop;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +34,8 @@ public class clients_order extends AppCompatActivity {
 
     private FloatingActionButton add;
     private MongoClient mongoClient;
+    public static final int time=2000;
+    private long backpressed;
     private MongoDatabase mongoDatabase;
     private MongoCollection<Document> mongoCollection;
     private User user;
@@ -50,8 +53,11 @@ public class clients_order extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(clients_order.this, client.class));            }
+                startActivity(new Intent(clients_order.this, client.class));
+            finish();}
         });
+
+
 
         orderRecyclerView = findViewById(R.id.order_recycler_view);
         orderRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -78,6 +84,21 @@ public class clients_order extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    public void onBackPressed() {
+
+        if (backpressed+time>System.currentTimeMillis()) {
+
+            super.onBackPressed();
+            return;
+
+        } else {
+
+            Toast.makeText(this, "press again to exit", Toast.LENGTH_SHORT).show();
+        }
+        backpressed=System.currentTimeMillis();
+    }
     private void fetchOrdersFromMongoDB() {
         Document sort = new Document("priority_num",-1)
                 .append("dueDate", 1);

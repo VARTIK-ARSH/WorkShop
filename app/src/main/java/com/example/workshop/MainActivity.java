@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         login = findViewById(R.id.login);
         progressbarlogin = findViewById(R.id.progressbarlogin);
 
-        checkLoggedInStatus();
+        //checkLoggedInStatus();
 
         login.setOnClickListener(v -> {
             progressbarlogin.setVisibility(View.VISIBLE);
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressbarlogin.setVisibility(View.GONE);
                                 String role = document.getString("role");
 
-                                saveLoginDetails(id, pass, role);
+                               //saveLoginDetails(id, pass, role);
                                 Log.d(TAG, "Saved Details ____________________________________________________________" + id + "  " + pass + "  "+ role);
 
                                 if ("admin".equals(role)) {

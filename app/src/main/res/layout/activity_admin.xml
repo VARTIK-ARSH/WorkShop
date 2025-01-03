@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:orientation="vertical"
+    android:background="@drawable/bg"
     android:layout_gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,7 +20,7 @@
             android:layout_height="wrap_content"
             android:text="Orders List"
             android:textSize="30sp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:gravity="center">
 
         </TextView>

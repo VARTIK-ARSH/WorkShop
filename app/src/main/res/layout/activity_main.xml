@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@drawable/bg1"
+    android:background="@drawable/bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
     android:orientation="vertical"
     tools:context=".MainActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="center"
+        android:layout_marginTop="180sp"
+        android:layout_gravity="top"
         android:gravity="center">
 
         <TextView
@@ -24,7 +24,7 @@
             android:fontFamily="sans-serif-smallcaps"
             android:gravity="center"
             android:padding="20dp"
-            android:text="SRMS Workshop"
+            android:text="Workshop"
             android:textColor="@color/white"
             android:textSize="60sp"
             android:textStyle="bold" />
@@ -32,11 +32,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:padding="10dp"
             android:layout_margin="10dp"
             app:cardCornerRadius="20dp"
-            app:cardBackgroundColor="#85FFFFFF"
-            app:cardElevation="20dp">
+            >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

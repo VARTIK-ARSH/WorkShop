@@ -69,7 +69,8 @@ public class client extends AppCompatActivity {
         arrowback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(client.this, clients_order.class));            }
+                startActivity(new Intent(client.this, clients_order.class));
+            finish();}
         });
 
         App app = new App(new AppConfiguration.Builder(APP_ID).build());
